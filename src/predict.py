@@ -7,16 +7,16 @@ from PIL import Image, ImageOps
 from keras.models import load_model
 from scipy.io.wavfile import write
 from scipy.signal import istft
-from utils import load_audio_dft, load_audio_raw
+from utils import load_audio_stft, load_audio_raw
 
 
-def decode_image_dft(args):
+def decode_image_stft(args):
     path_model = args.path_model
     img_path = args.img_path
     audio_path = args.audio_path
 
     image = Image.open(img_path).convert("RGB")
-    audio = np.array(load_audio_dft(audio_path), dtype=np.float32)
+    audio = np.array(load_audio_stft(audio_path), dtype=np.float32)
 
     image = np.array(ImageOps.fit(image, (255, 255)), dtype=np.float32) / 255.
 
@@ -33,7 +33,7 @@ def decode_image_dft(args):
     plt.imsave("../outputs/image_decode.png", image_decode)
 
 
-def decode_audio_dft(args):
+def decode_audio_stft(args):
     path_model = args.path_model
     img_path = args.img_path
 
@@ -106,8 +106,8 @@ def parse_arguments(argv):
                         help='model using: e for encoding, d for decoding(d)',
                         choices=["e", "d"])
     parser.add_argument('--preprocess', type=str,
-                        help='preprocess: raw/dft, default:dft',
-                        default="dft", choices=["dft", "raw"])
+                        help='preprocess: raw/stft, default:stft',
+                        default="stft", choices=["stft", "raw"])
     parser.add_argument('--path_model', type=str,
                         help='path to model pre-trained')
     parser.add_argument('--img_path', type=str, help='path to image')
@@ -118,13 +118,13 @@ def parse_arguments(argv):
 if __name__ == '__main__':
     arg = parse_arguments(sys.argv[1:])
     if arg.mode == "e":
-        if arg.preprocess == "dft":
-            decode_image_dft(arg)
+        if arg.preprocess == "stft":
+            decode_image_stft(arg)
         if arg.preprocess == "raw":
             decode_image_raw(arg)
     elif arg.mode == "d":
-        if arg.preprocess == "dft":
-            decode_audio_dft(arg)
+        if arg.preprocess == "stft":
+            decode_audio_stft(arg)
         if arg.preprocess == "raw":
             decode_audio_raw(arg)
     else:

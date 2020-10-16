@@ -70,8 +70,8 @@ def Decode_Audio_Model(channels):
                  name='decode_audio_model')
 
 
-def Encode_Decoder_Model(preprocess="dft"):
-    if preprocess == "dft":
+def Encode_Decoder_Model(preprocess="stft"):
+    if preprocess == "stft":
         channels = 2
     else:
         channels = 3

@@ -51,8 +51,8 @@ def parse_arguments(argv):
     parser.add_argument('--image_fraction', type=float,
                         help='image_fraction', default=1.)
     parser.add_argument('--preprocess', type=str,
-                        help='preprocess: raw/dft, default:dft',
-                        default="dft", choices=["dft", "raw"])
+                        help='preprocess: raw/stft, default:stft',
+                        default="stft", choices=["stft", "raw"])
     return parser.parse_args(argv)
 
 

@@ -9,7 +9,7 @@ from keras.models import Model
 from keras.layers import Input
 
 
-def load_audio_dft(path_audio_file, max_feature=64516):
+def load_audio_stft(path_audio_file, max_feature=64516):
     sr, s1 = read(path_audio_file)
     if len(s1) < max_feature:
         s1 = np.pad(s1, (0, max_feature - len(s1)),
@@ -62,8 +62,8 @@ def image_generator(path_image_dir, path_audio_dir,
                 audio = np.array(load_audio_raw(audio_path), dtype=np.float32)
                 batch_image.append(image)
                 batch_audio.append(audio)
-            elif preprocess == 'dft':
-                audio = np.array(load_audio_dft(audio_path), dtype=np.float32)
+            elif preprocess == 'stft':
+                audio = np.array(load_audio_stft(audio_path), dtype=np.float32)
                 batch_image.append(image)
                 batch_audio.append(audio)
             else:
@@ -75,7 +75,7 @@ def image_generator(path_image_dir, path_audio_dir,
                 'decode_audio_model': np.array(batch_audio)})
 
 
-def split_model(path_model='../models/model_dft1.0_1.0.hdf5'):
+def split_model(path_model='../models/model_stft1.0_1.0.hdf5'):
     model = load_model(path_model)
 
     model1 = Model(model.inputs, model.outputs[1])
